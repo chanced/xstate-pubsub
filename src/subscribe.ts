@@ -145,8 +145,7 @@ function getFilters(filters: undefined | string | RegExp | (string | RegExp)[]):
 		if (e instanceof RegExp) {
 			return e;
 		}
-		e = "^" + e.replace(/[.+?^${}()|[\]\\]/g, "\\$&") + ".*$";
-		e.replace("*", ".*");
+		e = "^" + e.replace(/[.+?^${}()|[\]\\]/g, "\\$&").replace("*", ".*") + "$";
 		return new RegExp(e);
 	});
 }
