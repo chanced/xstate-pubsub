@@ -54,9 +54,6 @@ const createNestedMachine = (ctx: NestedContext) =>
     on: {
       "sub.pong": {
         actions: log("received pong in nested")
-      },
-      pong: {
-        actions: log("wtf")
       }
     },
     states: {

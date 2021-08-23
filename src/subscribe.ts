@@ -1,8 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ActorRef, AnyEventObject, EventObject, spawn } from "xstate";
+import { Actor, ActorRef, AnyEventObject, EventObject, spawn } from "xstate";
 import { isPublishEvent } from "./publish";
 import rfdc from "rfdc";
 import type { StateMachineActorRef } from "./types";
+import type { PublishEvent } from "src";
+
+// TODO: improve this
+export type ActorSub = ActorRef<any, any>;
 
 export const SUBSCRIBE_EVENT = "xstate-pubsub.subscribe";
 export type SubscribeEventType = typeof SUBSCRIBE_EVENT;
@@ -10,7 +14,7 @@ export type SubscribeEventType = typeof SUBSCRIBE_EVENT;
 export const UNSUBSCRIBE_EVENT = "xstate-pubsub.unsubscribe";
 export type UnsubscribeEventType = typeof UNSUBSCRIBE_EVENT;
 
-const clone = rfdc({});
+const copy = rfdc();
 
 export interface SubscribeOptions {
 	/**
@@ -49,23 +53,20 @@ export interface UnsubscribeEvent extends EventObject {
 }
 
 export function subscribe<TRef extends StateMachineActorRef<any, any>>(
-	ref: TRef,
+	to: TRef,
 	options?: SubscribeOptions,
 ): ActorRef<any, any> {
-	ref.send({ type: SUBSCRIBE_EVENT, options });
+	to.send({ type: SUBSCRIBE_EVENT, options });
 	return spawn(
 		(send) => {
 			const namespace = getNamespace(options?.namespace);
 			const filters = getFilters(options?.events);
-			const { unsubscribe } = ref.subscribe((value) => {
+			const { unsubscribe } = to.subscribe((value) => {
 				const { event } = value;
 				if (isPublishEvent(event)) {
-					const payload = clone(event.event);
-					if (!event.event.type.startsWith(namespace)) {
-						payload.type = namespace + payload.type;
-					}
-					if (doesMatch(payload, filters)) {
-						send(payload);
+					if (doesMatch(event, filters, namespace)) {
+						const type = namespaceType(event.event, namespace);
+						send({ ...copy(event.event), type });
 					}
 				}
 			});
@@ -80,6 +81,34 @@ export function subscribe<TRef extends StateMachineActorRef<any, any>>(
 	);
 }
 
+function namespaceType(event: AnyEventObject, namespace: string): string {
+	return namespace + event.type;
+}
+
+function typeMatchesFilters(type: string, filters: RegExp[]): boolean {
+	return filters.some((f) => f.test(type));
+}
+
+function doesMatch(event: PublishEvent, filters: RegExp[], namespace: string): boolean {
+	// if there are no filters, return true
+	if (!filters.length) {
+		return true;
+	}
+	if (typeMatchesFilters(event.event.type, filters)) {
+		return true;
+	}
+	// allows for filters to contain either the namepsaced filter or the source
+	// so { of: "ping", namespace: "account" } will still match
+	return (
+		!!namespace &&
+		!isNamespaced(event, namespace) &&
+		typeMatchesFilters(namespaceType(event.event, namespace), filters)
+	);
+}
+
+function isNamespaced(event: PublishEvent, namespace: string): boolean {
+	return event.event.type.startsWith(namespace);
+}
 function getNamespace(namespace?: string): string {
 	if (!namespace) {
 		return "";
@@ -104,9 +133,4 @@ function getFilters(filters: undefined | string | RegExp | (string | RegExp)[]):
 		e.replace("*", ".*");
 		return new RegExp(e);
 	});
-}
-
-function doesMatch(event: AnyEventObject, filters: RegExp[]): boolean {
-	// if there are no filters, return true
-	return !filters.length || filters.some((f) => f.test(event.type));
 }
