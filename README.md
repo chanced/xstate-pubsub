@@ -54,7 +54,9 @@ const machine = createMachine({
   context: {},
   entry: [
     assign({ nestedRef: (ctx) => spawn(nestedMachine) }),
-    assign({ nestedSub: (ctx) => subscribe(ctx.nestedRef, { namespace: "nested", events: "nested.example.*" }) })
+    assign({ nestedSub: (ctx) => 
+      subscribe(ctx.nestedRef, { namespace: "nested", events: "nested.example.*" }) 
+    })
   ]
 })
 ```
