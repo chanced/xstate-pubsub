@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ActorRef, AnyEventObject, EventObject, spawn } from "xstate";
 import { isPublishEvent } from "./publish";
+import rfdc from "rfdc";
 import type { StateMachineActorRef } from "./types";
 
 export const SUBSCRIBE_EVENT = "xstate-pubsub.subscribe";
@@ -8,6 +9,8 @@ export type SubscribeEventType = typeof SUBSCRIBE_EVENT;
 
 export const UNSUBSCRIBE_EVENT = "xstate-pubsub.unsubscribe";
 export type UnsubscribeEventType = typeof UNSUBSCRIBE_EVENT;
+
+const clone = rfdc({});
 
 export interface SubscribeOptions {
 	/**
@@ -57,7 +60,7 @@ export function subscribe<TRef extends StateMachineActorRef<any, any>>(
 			const { unsubscribe } = ref.subscribe((value) => {
 				const { event } = value;
 				if (isPublishEvent(event)) {
-					const { event: payload } = event;
+					const payload = clone(event.event);
 					if (!event.event.type.startsWith(namespace)) {
 						payload.type = namespace + payload.type;
 					}

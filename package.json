@@ -69,5 +69,8 @@
 		"typescript": "^4.3.5",
 		"uvu": "^0.5.1",
 		"watchlist": "^0.2.3"
+	},
+	"dependencies": {
+		"rfdc": "^1.3.0"
 	}
 }
