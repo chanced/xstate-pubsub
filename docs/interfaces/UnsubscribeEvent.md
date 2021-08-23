@@ -23,7 +23,7 @@
 
 #### Defined in
 
-[subscribe.ts:45](https://github.com/chanced/xstate-pubsub/blob/d137c7b/src/subscribe.ts#L45)
+[subscribe.ts:48](https://github.com/chanced/xstate-pubsub/blob/c5c0724/src/subscribe.ts#L48)
 
 ___
 
@@ -37,4 +37,4 @@ EventObject.type
 
 #### Defined in
 
-[subscribe.ts:44](https://github.com/chanced/xstate-pubsub/blob/d137c7b/src/subscribe.ts#L44)
+[subscribe.ts:47](https://github.com/chanced/xstate-pubsub/blob/c5c0724/src/subscribe.ts#L47)

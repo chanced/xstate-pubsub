@@ -39,7 +39,7 @@
 
 #### Defined in
 
-[publish.ts:14](https://github.com/chanced/xstate-pubsub/blob/d137c7b/src/publish.ts#L14)
+[publish.ts:14](https://github.com/chanced/xstate-pubsub/blob/c5c0724/src/publish.ts#L14)
 
 ___
 
@@ -57,7 +57,7 @@ ___
 
 #### Defined in
 
-[publish.ts:16](https://github.com/chanced/xstate-pubsub/blob/d137c7b/src/publish.ts#L16)
+[publish.ts:16](https://github.com/chanced/xstate-pubsub/blob/c5c0724/src/publish.ts#L16)
 
 ___
 
@@ -74,7 +74,7 @@ ___
 
 #### Defined in
 
-[types.ts:4](https://github.com/chanced/xstate-pubsub/blob/d137c7b/src/types.ts#L4)
+[types.ts:4](https://github.com/chanced/xstate-pubsub/blob/c5c0724/src/types.ts#L4)
 
 ___
 
@@ -84,7 +84,7 @@ ___
 
 #### Defined in
 
-[subscribe.ts:7](https://github.com/chanced/xstate-pubsub/blob/d137c7b/src/subscribe.ts#L7)
+[subscribe.ts:8](https://github.com/chanced/xstate-pubsub/blob/c5c0724/src/subscribe.ts#L8)
 
 ___
 
@@ -94,7 +94,7 @@ ___
 
 #### Defined in
 
-[subscribe.ts:10](https://github.com/chanced/xstate-pubsub/blob/d137c7b/src/subscribe.ts#L10)
+[subscribe.ts:11](https://github.com/chanced/xstate-pubsub/blob/c5c0724/src/subscribe.ts#L11)
 
 ## Variables
 
@@ -104,7 +104,7 @@ ___
 
 #### Defined in
 
-[publish.ts:12](https://github.com/chanced/xstate-pubsub/blob/d137c7b/src/publish.ts#L12)
+[publish.ts:12](https://github.com/chanced/xstate-pubsub/blob/c5c0724/src/publish.ts#L12)
 
 ___
 
@@ -114,7 +114,7 @@ ___
 
 #### Defined in
 
-[subscribe.ts:6](https://github.com/chanced/xstate-pubsub/blob/d137c7b/src/subscribe.ts#L6)
+[subscribe.ts:7](https://github.com/chanced/xstate-pubsub/blob/c5c0724/src/subscribe.ts#L7)
 
 ___
 
@@ -124,7 +124,7 @@ ___
 
 #### Defined in
 
-[subscribe.ts:9](https://github.com/chanced/xstate-pubsub/blob/d137c7b/src/subscribe.ts#L9)
+[subscribe.ts:10](https://github.com/chanced/xstate-pubsub/blob/c5c0724/src/subscribe.ts#L10)
 
 ## Functions
 
@@ -144,7 +144,7 @@ event is PublishEvent<AnyEventObject\>
 
 #### Defined in
 
-[publish.ts:28](https://github.com/chanced/xstate-pubsub/blob/d137c7b/src/publish.ts#L28)
+[publish.ts:28](https://github.com/chanced/xstate-pubsub/blob/c5c0724/src/publish.ts#L28)
 
 ___
 
@@ -172,7 +172,7 @@ ___
 
 #### Defined in
 
-[publish.ts:37](https://github.com/chanced/xstate-pubsub/blob/d137c7b/src/publish.ts#L37)
+[publish.ts:37](https://github.com/chanced/xstate-pubsub/blob/c5c0724/src/publish.ts#L37)
 
 ___
 
@@ -199,4 +199,4 @@ ___
 
 #### Defined in
 
-[subscribe.ts:48](https://github.com/chanced/xstate-pubsub/blob/d137c7b/src/subscribe.ts#L48)
+[subscribe.ts:51](https://github.com/chanced/xstate-pubsub/blob/c5c0724/src/subscribe.ts#L51)
