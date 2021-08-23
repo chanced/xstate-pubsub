@@ -1,73 +1,73 @@
 {
-  "name": "xstate-pubsub",
-  "version": "0.0.1",
-  "description": "actions for xstate that enable communication between actors",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist",
-    "src",
-    "tests",
-    "tsconfig.json"
-  ],
-  "scripts": {
-    "build": "rollup --config",
-    "rebuild": "npm run clean:build && npm run build",
-    "lint": "prettier --check --plugin-search-dir=. . && eslint --ignore-path .gitignore .",
-    "format": "prettier --write --plugin-search-dir=. .",
-    "test": "uvu -r ts-node/register tests",
-    "watch:test": "watchlist src tests -- npm run test",
-    "watch:build": "npm run build -- --environment NODE_ENV:development --watch",
-    "clean:test": "rimraf coverage",
-    "clean:build": "rimraf dist",
-    "clean:docs": "rimraf docs/**/*.md",
-    "clean": "concurrently 'npm:clean:*'",
-    "watch": "concurrently 'npm:watch:*'",
-    "prepublishOnly": "npm run clean && npm run lint && npm run format && npm test && npm run build && npm run docs",
-    "test:coverage": "c8 --include=src npm test",
-    "test:report": "c8 report --reporter=text-lcov > coverage.lcov",
-    "docs": "typedoc src/index.ts"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/chanced/classy-store.git"
-  },
-  "keywords": [
-    "svelte"
-  ],
-  "author": "chance dinkins",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/chanced/classy-store/issues"
-  },
-  "homepage": "https://github.com/chanced/classy-store#readme",
-  "peerDependencies": {
-    "xstate": "^4.23.1"
-  },
-  "devDependencies": {
-    "@rollup/plugin-typescript": "^8.2.5",
-    "@typescript-eslint/eslint-plugin": "^4.28.5",
-    "@typescript-eslint/parser": "^4.28.5",
-    "c8": "^7.8.0",
-    "concurrently": "^6.2.0",
-    "eslint": "^7.32.0",
-    "eslint-config-prettier": "^8.1.0",
-    "eslint-config-standard": "^16.0.3",
-    "eslint-plugin-import": "^2.23.4",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^5.1.0",
-    "rimraf": "^3.0.2",
-    "rollup": "^2.55.1",
-    "rollup-plugin-dts": "^3.0.2",
-    "rollup-plugin-terser": "^7.0.2",
-    "rollup-plugin-typescript2": "^0.30.0",
-    "ts-node": "^10.1.0",
-    "tslib": "^2.3.0",
-    "typedoc": "^0.21.5",
-    "typedoc-plugin-markdown": "^3.10.4",
-    "typedoc-plugin-sourcefile-url": "^1.0.6",
-    "typescript": "^4.3.5",
-    "uvu": "^0.5.1",
-    "watchlist": "^0.2.3"
-  }
+	"name": "xstate-pubsub",
+	"version": "0.0.1",
+	"description": "actions for xstate that enable communication between actors",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"files": [
+		"dist",
+		"src",
+		"tests",
+		"tsconfig.json"
+	],
+	"scripts": {
+		"build": "rollup --config",
+		"rebuild": "npm run clean:build && npm run build",
+		"lint": "prettier --check --plugin-search-dir=. . && eslint --ignore-path .gitignore .",
+		"format": "prettier --write --plugin-search-dir=. .",
+		"test": "uvu -r ts-node/register tests",
+		"watch:test": "watchlist src tests -- npm run test",
+		"watch:build": "npm run build -- --environment NODE_ENV:development --watch",
+		"clean:test": "rimraf coverage",
+		"clean:build": "rimraf dist",
+		"clean:docs": "rimraf docs/**/*.md",
+		"clean": "concurrently 'npm:clean:*'",
+		"watch": "concurrently 'npm:watch:*'",
+		"prepublishOnly": "npm run clean && npm run lint && npm run format && npm test && npm run build && npm run docs",
+		"test:coverage": "c8 --include=src npm test",
+		"test:report": "c8 report --reporter=text-lcov > coverage.lcov",
+		"docs": "typedoc src/index.ts"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/chanced/classy-store.git"
+	},
+	"keywords": [
+		"svelte"
+	],
+	"author": "chance dinkins",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/chanced/classy-store/issues"
+	},
+	"homepage": "https://github.com/chanced/classy-store#readme",
+	"peerDependencies": {
+		"xstate": "^4.23.1"
+	},
+	"devDependencies": {
+		"@rollup/plugin-typescript": "^8.2.5",
+		"@typescript-eslint/eslint-plugin": "^4.28.5",
+		"@typescript-eslint/parser": "^4.28.5",
+		"c8": "^7.8.0",
+		"concurrently": "^6.2.0",
+		"eslint": "^7.32.0",
+		"eslint-config-prettier": "^8.1.0",
+		"eslint-config-standard": "^16.0.3",
+		"eslint-plugin-import": "^2.23.4",
+		"eslint-plugin-node": "^11.1.0",
+		"eslint-plugin-promise": "^5.1.0",
+		"rimraf": "^3.0.2",
+		"rollup": "^2.55.1",
+		"rollup-plugin-dts": "^3.0.2",
+		"rollup-plugin-terser": "^7.0.2",
+		"rollup-plugin-typescript2": "^0.30.0",
+		"ts-node": "^10.1.0",
+		"tslib": "^2.3.0",
+		"typedoc": "^0.21.5",
+		"typedoc-plugin-markdown": "^3.10.4",
+		"typedoc-plugin-sourcefile-url": "^1.0.6",
+		"typescript": "^4.3.5",
+		"uvu": "^0.5.1",
+		"watchlist": "^0.2.3"
+	}
 }
