@@ -29,7 +29,7 @@
 
 #### Defined in
 
-[publish.ts:25](https://github.com/chanced/xstate-pubsub/blob/e136544/src/publish.ts#L25)
+[publish.ts:25](https://github.com/chanced/xstate-pubsub/blob/a2164ac/src/publish.ts#L25)
 
 ___
 
@@ -43,4 +43,4 @@ EventObject.type
 
 #### Defined in
 
-[publish.ts:24](https://github.com/chanced/xstate-pubsub/blob/e136544/src/publish.ts#L24)
+[publish.ts:24](https://github.com/chanced/xstate-pubsub/blob/a2164ac/src/publish.ts#L24)
