@@ -28,7 +28,7 @@ all other regular expression characters in strings are escaped.
 
 #### Defined in
 
-[subscribe.ts:32](https://github.com/chanced/xstate-pubsub/blob/a2164ac/src/subscribe.ts#L32)
+[subscribe.ts:32](https://github.com/chanced/xstate-pubsub/blob/a9ee086/src/subscribe.ts#L32)
 
 ___
 
@@ -40,7 +40,7 @@ name of the spawned subscription.
 
 #### Defined in
 
-[subscribe.ts:42](https://github.com/chanced/xstate-pubsub/blob/a2164ac/src/subscribe.ts#L42)
+[subscribe.ts:42](https://github.com/chanced/xstate-pubsub/blob/a9ee086/src/subscribe.ts#L42)
 
 ___
 
@@ -54,4 +54,4 @@ if the namespace is already present on the event's type, it is not added
 
 #### Defined in
 
-[subscribe.ts:38](https://github.com/chanced/xstate-pubsub/blob/a2164ac/src/subscribe.ts#L38)
+[subscribe.ts:38](https://github.com/chanced/xstate-pubsub/blob/a9ee086/src/subscribe.ts#L38)

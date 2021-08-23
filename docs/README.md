@@ -8,6 +8,109 @@ npm install xstate-pubsub
 ```
 
 ## Usage
+
+### Subscribing
+A subscription is a specialized actor that subscribes to the target actor and listens for publish events. As such, you need to `assign` it to context:
+
+```typescript
+import { subscribe } from "xstate-pubsub"
+import { createMachine, spawn } from "xstate"
+
+const machine = createMachine({
+  context: {},
+  entry: [
+    assign({ nestedRef: (ctx) => spawn(nestedMachine) }),
+    assign({ nestedSub: (ctx) => subscribe(ctx.nestedRef) })
+  ]
+})
+```
+### Filtering events
+
+You can filter events through options' `events` field. It accepts any one of the following: `string`, `RegExp`, `(string | RegExp)[]`.
+
+```typescript
+import { subscribe } from "xstate-pubsub"
+import { createMachine, spawn } from "xstate"
+
+const machine = createMachine({
+  context: {},
+  entry: [
+    assign({ nestedRef: (ctx) => spawn(nestedMachine) }),
+    assign({ nestedSub: (ctx) => subscribe(ctx.nestedRef, {events: "nested.example.*" }) })
+  ]
+})
+```
+strings expand `"*"` to the `RegExp` `/.*/` so the above would be expanded to the regular expression `/^nested.example\..*/`.
+
+### Namespacing events
+
+It is highly recommended that you namespace your events so you don't end up with collisions. 
+
+If you have existing machines that are not namespaced, you can have one assigned with the `namespace` option.
+
+```typescript
+import { subscribe } from "xstate-pubsub"
+import { createMachine, spawn } from "xstate"
+
+const machine = createMachine({
+  context: {},
+  entry: [
+    assign({ nestedRef: (ctx) => spawn(nestedMachine) }),
+    assign({ nestedSub: (ctx) => subscribe(ctx.nestedRef, { namespace: "nested", events: "nested.example.*" }) })
+  ]
+})
+```
+
+## Publishing
+
+Publishing events simply wraps your event in a `PublishEvent`. 
+
+```typescript
+  import { publish } from "xstate-pubsub"
+  import { createMachine, spawn } from "xstate"
+
+  const machine = createMachine({
+    context: {},
+    initial: "idle",
+    idle: {
+      entry: [
+        publish({ type: "example", data: { name: "example" } })
+      ],
+    },
+  })
+```
+would produce the following event:
+```javascript 
+{ 
+  type: "xstate-pubsub.publish", 
+  event: { type: "example", data: { name: "example "} } 
+}
+```
+
+If an event is published with the same namespace as assigned in subscribers, it is not replicated on the event.
+
+```typescript
+const publisherMachine = createMachine({
+  entry: [
+    publish({type: "publisher.event" })
+  ]
+})
+
+const subcriberMachine = createMachine({
+  conetxt: {},
+  entry: [
+    assign({ pubRef: (ctx) => spawn(publisherMachine) }}),
+    assign({ pubSub: (ctx) => subscribe(publisherMachine, {namespace: "publisher" })})
+  ],
+  on: {
+    "publisher.event": {
+      entry: log("namespace is not duplicated")
+    }
+  }
+})
+```
+
+## Examples
 **[example on codesandbox](https://codesandbox.io/s/wonderful-khayyam-4xihe?file=/src/index.ts)**
 ```typescript
 import { publish, subscribe } from "xstate-pubsub";
