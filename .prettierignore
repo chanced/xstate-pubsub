@@ -1,0 +1,7 @@
+.svelte-kit/**
+static/**
+build/**
+node_modules/**
+docs/**
+.github/**
+README.md
