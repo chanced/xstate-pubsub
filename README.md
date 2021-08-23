@@ -37,7 +37,7 @@ const machine = createMachine({
   ]
 })
 ```
-strings expand `"*"` to the `RegExp` `/.*/` so the above would be expanded to the regular expression `/^nested.example\..*/`.
+strings expand `"*"` to the `RegExp` `/.*/` so the above would be expanded to the regular expression `/^nested.example\..*$/`.
 
 
 ### Namespacing events
