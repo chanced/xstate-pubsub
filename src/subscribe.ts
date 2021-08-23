@@ -71,8 +71,8 @@ export function subscribe<TRef extends StateMachineActorRef<any, any>>(
 				}
 			});
 			return () => {
-				const { done }: { done: boolean } = to.getSnapshot();
-				if (!done) {
+				const { done }: { done?: boolean } = to.getSnapshot();
+				if (done !== undefined && !done) {
 					to.send({ type: UNSUBSCRIBE_EVENT, options });
 				}
 				unsubscribe();
