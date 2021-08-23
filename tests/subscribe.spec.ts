@@ -1,23 +1,39 @@
 import assert from "assert";
+import { createMachine } from "xstate";
 import { suite } from "uvu";
-import { rootMachine } from "./fixtures";
-import { interpret } from "xstate";
+import { pingPongMachine } from "./fixtures";
+import { interpret, assign } from "xstate";
 
-const subcriptions = suite("subscriptions");
+export const subscriber = suite("subscriptions");
 
-subcriptions(
+subscriber(
 	"should receive all events of the ref actor if the events filter is not provided",
 	() => {
-		const service = interpret(rootMachine);
+		const service = interpret(pingPongMachine);
 		service.start();
-		let { context } = service.getSnapshot();
-		assert.ok(context.nestedRef);
-		assert.ok(context.subRef);
-		assert.ok(context.subSub);
 		service.send("ping");
-		context = service.getSnapshot().context;
-		const nested = context.nestedRef?.getSnapshot();
-		assert.ok(nested);
-		console.log(nested.history);
+		service.stop();
+		const { context } = service.getSnapshot();
+		const { nestedRef, subRef } = context;
+		const { context: nestedContext } = nestedRef.getSnapshot();
+		const { context: subContext } = subRef.getSnapshot();
+		assert.equal(context.receivedPing, 1);
+		assert.equal(context.receivedPong, 1);
+		assert.equal(nestedContext.receivedPong, 1);
+		assert.equal(subContext.receivedPing, 1);
 	},
 );
+
+subscriber("should send an 'xstate-pubsub-subscribe' event upon subscription", () => {
+	const service = interpret(pingPongMachine);
+	service.start();
+	const { context } = service.getSnapshot();
+	const { subRef } = context;
+
+	const { context: subContext } = subRef.getSnapshot();
+	service.send("stop-nested");
+	service.stop();
+	assert.equal(subContext.receivedSubscribe, 2);
+	assert.equal(subContext.receivedUnsubscribe, 1);
+});
+subscriber.run();

@@ -1,14 +1,34 @@
 import { publish, subscribe } from "../src";
 import type { ActorSub } from "../src";
 import { createMachine, assign, spawn, send, ActorRefFrom } from "xstate";
-import { log } from "xstate/lib/actions";
+import { SUBSCRIBE_EVENT, UNSUBSCRIBE_EVENT } from "../src";
 
-export const subMachine = createMachine({
+interface SubContext {
+	receivedPing: number;
+	receivedSubscribe: number;
+	receivedUnsubscribe: number;
+}
+
+export const subMachine = createMachine<SubContext>({
 	id: "sub",
-	context: {},
+	context: {
+		receivedPing: 0,
+		receivedSubscribe: 0,
+		receivedUnsubscribe: 0,
+	},
 	on: {
 		ping: {
-			actions: [log("received ping in sub"), publish({ type: "pong" })],
+			actions: [publish({ type: "pong" }), assign({ receivedPing: (ctx) => ctx.receivedPing + 1 })],
+		},
+		[SUBSCRIBE_EVENT]: {
+			actions: assign({
+				receivedSubscribe: (ctx) => ctx.receivedSubscribe + 1,
+			}),
+		},
+		[UNSUBSCRIBE_EVENT]: {
+			actions: assign({
+				receivedUnsubscribe: (ctx) => ctx.receivedUnsubscribe + 1,
+			}),
 		},
 	},
 	initial: "idle",
@@ -18,8 +38,10 @@ export const subMachine = createMachine({
 interface NestedContext {
 	subRef: ActorRefFrom<typeof subMachine>;
 	subSub?: ActorSub;
+	receivedPong: number;
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const createNestedMachine = (ctx: NestedContext) =>
 	createMachine<NestedContext>({
 		context: ctx,
@@ -36,7 +58,11 @@ export const createNestedMachine = (ctx: NestedContext) =>
 		],
 		on: {
 			"sub.pong": {
-				actions: log("received pong in nested"),
+				actions: [
+					assign({
+						receivedPong: (ctx) => ctx.receivedPong + 1,
+					}),
+				],
 			},
 		},
 		states: {
@@ -44,22 +70,28 @@ export const createNestedMachine = (ctx: NestedContext) =>
 		},
 	});
 
-interface RootContext {
+interface PingPongContext {
 	subRef?: ActorRefFrom<typeof subMachine>;
 	nestedRef?: ActorRefFrom<ReturnType<typeof createNestedMachine>>;
 	subSub?: ActorSub;
+	receivedPing: number;
+	receivedPong: number;
 }
 
-export const rootMachine = createMachine<RootContext>({
+export const pingPongMachine = createMachine<PingPongContext>({
 	id: "root",
-	context: {},
+	context: {
+		receivedPing: 0,
+		receivedPong: 0,
+	},
 	entry: [
 		assign({
 			subRef: (ctx) => spawn(subMachine, "sub"),
 		}),
 		assign({
-			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-			nestedRef: (ctx) => spawn(createNestedMachine({ subRef: ctx.subRef! }), "nested"),
+			nestedRef: (ctx) =>
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+				spawn(createNestedMachine({ subRef: ctx.subRef!, receivedPong: 0 }), "nested"),
 		}),
 		assign({
 			subSub: (ctx) =>
@@ -80,10 +112,18 @@ export const rootMachine = createMachine<RootContext>({
 	},
 	on: {
 		ping: {
-			actions: [log("sending ping to sub"), send("ping", { to: "sub" })],
+			actions: [
+				send("ping", { to: "sub" }),
+				assign({ receivedPing: (ctx) => ctx.receivedPing + 1 }),
+			],
 		},
 		pong: {
-			actions: log("received pong in root"),
+			actions: [assign({ receivedPong: (ctx) => ctx.receivedPong + 1 })],
+		},
+		"stop-nested": {
+			actions: (ctx) => {
+				ctx.nestedRef.stop();
+			},
 		},
 	},
 });

@@ -13,6 +13,7 @@
 
 ### Type aliases
 
+- [ActorSub](modules.md#actorsub)
 - [PublishEventType](modules.md#publisheventtype)
 - [PublishExpr](modules.md#publishexpr)
 - [StateMachineActorRef](modules.md#statemachineactorref)
@@ -33,13 +34,23 @@
 
 ## Type aliases
 
+### ActorSub
+
+Ƭ **ActorSub**: `ActorRef`<`any`, `any`\>
+
+#### Defined in
+
+[subscribe.ts:9](https://github.com/chanced/xstate-pubsub/blob/e136544/src/subscribe.ts#L9)
+
+___
+
 ### PublishEventType
 
 Ƭ **PublishEventType**: typeof [`PUBLISH_EVENT`](modules.md#publish_event)
 
 #### Defined in
 
-[publish.ts:14](https://github.com/chanced/xstate-pubsub/blob/c5c0724/src/publish.ts#L14)
+[publish.ts:14](https://github.com/chanced/xstate-pubsub/blob/e136544/src/publish.ts#L14)
 
 ___
 
@@ -57,7 +68,7 @@ ___
 
 #### Defined in
 
-[publish.ts:16](https://github.com/chanced/xstate-pubsub/blob/c5c0724/src/publish.ts#L16)
+[publish.ts:16](https://github.com/chanced/xstate-pubsub/blob/e136544/src/publish.ts#L16)
 
 ___
 
@@ -74,7 +85,7 @@ ___
 
 #### Defined in
 
-[types.ts:4](https://github.com/chanced/xstate-pubsub/blob/c5c0724/src/types.ts#L4)
+[types.ts:4](https://github.com/chanced/xstate-pubsub/blob/e136544/src/types.ts#L4)
 
 ___
 
@@ -84,7 +95,7 @@ ___
 
 #### Defined in
 
-[subscribe.ts:8](https://github.com/chanced/xstate-pubsub/blob/c5c0724/src/subscribe.ts#L8)
+[subscribe.ts:12](https://github.com/chanced/xstate-pubsub/blob/e136544/src/subscribe.ts#L12)
 
 ___
 
@@ -94,7 +105,7 @@ ___
 
 #### Defined in
 
-[subscribe.ts:11](https://github.com/chanced/xstate-pubsub/blob/c5c0724/src/subscribe.ts#L11)
+[subscribe.ts:15](https://github.com/chanced/xstate-pubsub/blob/e136544/src/subscribe.ts#L15)
 
 ## Variables
 
@@ -104,7 +115,7 @@ ___
 
 #### Defined in
 
-[publish.ts:12](https://github.com/chanced/xstate-pubsub/blob/c5c0724/src/publish.ts#L12)
+[publish.ts:12](https://github.com/chanced/xstate-pubsub/blob/e136544/src/publish.ts#L12)
 
 ___
 
@@ -114,7 +125,7 @@ ___
 
 #### Defined in
 
-[subscribe.ts:7](https://github.com/chanced/xstate-pubsub/blob/c5c0724/src/subscribe.ts#L7)
+[subscribe.ts:11](https://github.com/chanced/xstate-pubsub/blob/e136544/src/subscribe.ts#L11)
 
 ___
 
@@ -124,7 +135,7 @@ ___
 
 #### Defined in
 
-[subscribe.ts:10](https://github.com/chanced/xstate-pubsub/blob/c5c0724/src/subscribe.ts#L10)
+[subscribe.ts:14](https://github.com/chanced/xstate-pubsub/blob/e136544/src/subscribe.ts#L14)
 
 ## Functions
 
@@ -144,7 +155,7 @@ event is PublishEvent<AnyEventObject\>
 
 #### Defined in
 
-[publish.ts:28](https://github.com/chanced/xstate-pubsub/blob/c5c0724/src/publish.ts#L28)
+[publish.ts:28](https://github.com/chanced/xstate-pubsub/blob/e136544/src/publish.ts#L28)
 
 ___
 
@@ -172,13 +183,13 @@ ___
 
 #### Defined in
 
-[publish.ts:37](https://github.com/chanced/xstate-pubsub/blob/c5c0724/src/publish.ts#L37)
+[publish.ts:37](https://github.com/chanced/xstate-pubsub/blob/e136544/src/publish.ts#L37)
 
 ___
 
 ### subscribe
 
-▸ **subscribe**<`TRef`\>(`ref`, `options?`): `ActorRef`<`any`, `any`\>
+▸ **subscribe**<`TRef`\>(`to`, `options?`): `ActorRef`<`any`, `any`\>
 
 #### Type parameters
 
@@ -190,7 +201,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `ref` | `TRef` |
+| `to` | `TRef` |
 | `options?` | [`SubscribeOptions`](interfaces/SubscribeOptions.md) |
 
 #### Returns
@@ -199,4 +210,4 @@ ___
 
 #### Defined in
 
-[subscribe.ts:51](https://github.com/chanced/xstate-pubsub/blob/c5c0724/src/subscribe.ts#L51)
+[subscribe.ts:55](https://github.com/chanced/xstate-pubsub/blob/e136544/src/subscribe.ts#L55)
