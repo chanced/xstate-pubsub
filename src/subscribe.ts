@@ -73,17 +73,21 @@ export function subscribe<TRef extends StateMachineActorRef<any, any>>(
 						}
 					}
 				},
-				undefined,
+				noop,
 				() => {
+					console.log("\n\nON COMPLETE CALLED\n\n");
 					isComplete = true;
 				},
 			);
 			return () => {
 				// this is going to cause warnings if the machine (to) is stoppped
 				// not sure whether or not to remove this?
-				if (!isComplete) {
-					to.send({ type: UNSUBSCRIBE_EVENT, options });
-				}
+				setTimeout(() => {
+					if (!isComplete) {
+						to.send({ type: UNSUBSCRIBE_EVENT, options });
+					}
+				}, 1);
+
 				unsubscribe();
 			};
 		},
@@ -146,3 +150,6 @@ function getFilters(filters: undefined | string | RegExp | (string | RegExp)[]):
 		return new RegExp(e);
 	});
 }
+
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+function noop() {}

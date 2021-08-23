@@ -103,11 +103,7 @@ export const pingPongMachine = createMachine<PingPongContext>({
 	initial: "idle",
 	states: {
 		idle: {
-			entry: [
-				(ctx) => {
-					console.log(ctx);
-				},
-			],
+			entry: [],
 		},
 	},
 	on: {
