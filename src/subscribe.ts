@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Actor, ActorRef, AnyEventObject, EventObject, spawn } from "xstate";
+import { ActorRef, AnyEventObject, EventObject, spawn } from "xstate";
 import { isPublishEvent } from "./publish";
 import rfdc from "rfdc";
 import type { StateMachineActorRef } from "./types";
@@ -57,7 +57,7 @@ export function subscribe<TRef extends StateMachineActorRef<any, any>>(
 	options?: SubscribeOptions,
 ): ActorRef<any, any> {
 	to.send({ type: SUBSCRIBE_EVENT, options });
-	let isComplete = false;
+	// let isComplete = false;
 	return spawn(
 		(send) => {
 			const namespace = getNamespace(options?.namespace);
@@ -75,18 +75,17 @@ export function subscribe<TRef extends StateMachineActorRef<any, any>>(
 				},
 				noop,
 				() => {
-					console.log("\n\nON COMPLETE CALLED\n\n");
-					isComplete = true;
+					// console.log("\n\nON COMPLETE CALLED\n\n");
+					// isComplete = true;
 				},
 			);
 			return () => {
-				// this is going to cause warnings if the machine (to) is stoppped
-				// not sure whether or not to remove this?
-				setTimeout(() => {
-					if (!isComplete) {
-						to.send({ type: UNSUBSCRIBE_EVENT, options });
-					}
-				}, 1);
+				// this is causing warnings and never firing if the actor is stopped
+				// setTimeout(() => {
+				// 	if (!isComplete) {
+				// 		to.send({ type: UNSUBSCRIBE_EVENT, options });
+				// 	}
+				// }, 1);
 
 				unsubscribe();
 			};
