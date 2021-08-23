@@ -57,22 +57,31 @@ export function subscribe<TRef extends StateMachineActorRef<any, any>>(
 	options?: SubscribeOptions,
 ): ActorRef<any, any> {
 	to.send({ type: SUBSCRIBE_EVENT, options });
+	let isComplete = false;
 	return spawn(
 		(send) => {
 			const namespace = getNamespace(options?.namespace);
 			const filters = getFilters(options?.events);
-			const { unsubscribe } = to.subscribe((value) => {
-				const { event } = value;
-				if (isPublishEvent(event)) {
-					if (doesMatch(event, filters, namespace)) {
-						const type = namespaceType(event.event, namespace);
-						send({ ...copy(event.event), type });
+			to.subscribe;
+			const { unsubscribe } = to.subscribe(
+				(value) => {
+					const { event } = value;
+					if (isPublishEvent(event)) {
+						if (doesMatch(event, filters, namespace)) {
+							const type = namespaceType(event.event, namespace);
+							send({ ...copy(event.event), type });
+						}
 					}
-				}
-			});
+				},
+				undefined,
+				() => {
+					isComplete = true;
+				},
+			);
 			return () => {
-				const { done }: { done?: boolean } = to.getSnapshot();
-				if (done !== undefined && !done) {
+				// this is going to cause warnings if the machine (to) is stoppped
+				// not sure whether or not to remove this?
+				if (!isComplete) {
 					to.send({ type: UNSUBSCRIBE_EVENT, options });
 				}
 				unsubscribe();
