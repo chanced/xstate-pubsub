@@ -4,7 +4,6 @@
 	"description": "provides publish and subscribe actions for xstate, allowing machine actors to communicate with one another.",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
-	"categories": [],
 	"files": [
 		"dist",
 		"src",

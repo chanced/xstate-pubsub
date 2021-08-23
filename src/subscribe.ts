@@ -75,12 +75,13 @@ export function subscribe<TRef extends StateMachineActorRef<any, any>>(
 				},
 				noop,
 				() => {
+					// this is never firing
 					// console.log("\n\nON COMPLETE CALLED\n\n");
 					// isComplete = true;
 				},
 			);
 			return () => {
-				// this is causing warnings and never firing if the actor is stopped
+				// this is causing warnings
 				// setTimeout(() => {
 				// 	if (!isComplete) {
 				// 		to.send({ type: UNSUBSCRIBE_EVENT, options });
