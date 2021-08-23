@@ -6,9 +6,7 @@ npm install xstate-pubsub
 ```
 
 
-## Usage
-
-### Subscribing
+## Subscribing
 A subscription is a specialized actor that subscribes to the target actor and listens for publish events. As such, you need to `assign` it to context:
 
 ```typescript
