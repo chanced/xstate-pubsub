@@ -1,5 +1,5 @@
 # xstate-pubsub
-actions that allow xstate machines to emit and subscribe to other machine actors
+xstate-pubsub provides publish and subscribe actions for xstate machines, allowing machine actors to communicate with one another.
 
 ```bash
 npm install xstate-pubsub
