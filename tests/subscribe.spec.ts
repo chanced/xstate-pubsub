@@ -1,7 +1,8 @@
 import assert from "assert";
 import { suite } from "uvu";
 import { pingPongMachine } from "./fixtures";
-import { interpret } from "xstate";
+import { assign, createMachine, interpret, spawn } from "xstate";
+import { publish, subscribe } from "../src";
 
 export const subscriber = suite("subscriptions");
 
@@ -37,4 +38,48 @@ subscriber("should send an 'xstate-pubsub-subscribe' event upon subscription", (
 	// TODO: Fix unsubscribe events
 	// assert.equal(subContext.receivedUnsubscribe, 1);
 });
+
+subscriber("should match wildcard events", () => {
+	const events = [
+		"namespaced.example.foo",
+		"namespaced.example.bar",
+		"namespaced.example.baz",
+		"namespaced.example.foobar",
+		"example.foobar",
+	];
+
+	const actions = () => events.map((e) => publish(e));
+
+	const eventRes: Record<string, boolean> = {};
+	const nodes = events.reduce((acc, cur) => {
+		acc[cur] = {
+			actions: () => {
+				eventRes[cur] = true;
+			},
+		};
+		return acc;
+	}, {} as Record<string, unknown>);
+
+	const emitter = createMachine({
+		entry: actions(),
+	});
+
+	const machine = createMachine({
+		on: nodes,
+		context: {},
+		entry: [
+			assign({ ref: spawn(emitter) }),
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			assign((ctx: any) =>
+				subscribe(ctx.ref, {
+					namespace: "namespaced",
+					events: ["namespaced.*.foo"],
+				}),
+			),
+		],
+	});
+	const svc = interpret(machine);
+	svc.start();
+});
+
 subscriber.run();

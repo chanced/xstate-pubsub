@@ -62,32 +62,26 @@ export function subscribe<TRef extends StateMachineActorRef<any, any>>(
 		(send) => {
 			const namespace = getNamespace(options?.namespace);
 			const filters = getFilters(options?.events);
-			to.subscribe;
 			const { unsubscribe } = to.subscribe(
 				(value) => {
 					const { event } = value;
-					if (isPublishEvent(event)) {
-						if (doesMatch(event, filters, namespace)) {
-							const type = namespaceType(event.event, namespace);
-							send({ ...copy(event.event), type });
-						}
+					if (isPublishEvent(event) && matchesFilters(event, filters, namespace)) {
+						const type = namespaceType(event.event, namespace);
+						send({ ...copy(event.event), type });
 					}
 				},
 				noop,
+				// this is never firing
 				() => {
-					// this is never firing
-					// console.log("\n\nON COMPLETE CALLED\n\n");
 					// isComplete = true;
 				},
 			);
 			return () => {
-				// this is causing warnings
-				// setTimeout(() => {
+				// this is causing warnings because there is no way to determine whether or not the
+				// actor has been stopped.
 				// 	if (!isComplete) {
 				// 		to.send({ type: UNSUBSCRIBE_EVENT, options });
 				// 	}
-				// }, 1);
-
 				unsubscribe();
 			};
 		},
@@ -105,7 +99,7 @@ function typeMatchesFilters(type: string, filters: RegExp[]): boolean {
 	return filters.some((f) => f.test(type));
 }
 
-function doesMatch(event: PublishEvent, filters: RegExp[], namespace: string): boolean {
+function matchesFilters(event: PublishEvent, filters: RegExp[], namespace: string): boolean {
 	// if there are no filters, return true
 	if (!filters.length) {
 		return true;
